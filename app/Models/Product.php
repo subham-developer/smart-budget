@@ -11,6 +11,9 @@ class Product extends Model
     public function cat_info(){
         return $this->hasOne('App\Models\Category','id','cat_id');
     }
+    public function brand_info(){
+        return $this->hasOne('App\Models\Brand','id','brand_id');
+    }
     public function sub_cat_info(){
         return $this->hasOne('App\Models\Category','id','child_cat_id');
     }

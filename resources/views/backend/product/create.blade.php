@@ -3,7 +3,15 @@
 @section('main-content')
 
 <div class="card">
-    <h5 class="card-header">Add Product</h5>
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary float-left">Add Product</h6>
+    {{-- <a href="{{url('storage/sample_excel_template/sample_template_for_uploading_products_list.xlsx')}}" class="btn btn-primary btn-sm float-right" download data-toggle="tooltip" data-placement="bottom" title="Add Product"><i class="fas fa-download"></i> Download Sample temple</a> --}}
+    <a href="{{url('/admin/product/upload_products_list')}}" class="btn btn-info btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Dowload Products List"><i class="fas fa-upload"></i> Upoload Excel</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    
+  </div>
+    {{-- <h5 class="card-header">Add Product</h5> --}}
+    {{-- <a href="{{route('product.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add Product"><i class="fas fa-plus"></i> Add Product</a> |  --}}
+      {{-- <a href="{{url('/downloadExcel/xls')}}" class="btn btn-info btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Dowload Products List"><i class="fas fa-download"></i> Dowload Products List</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --}}
     <div class="card-body">
       <form method="post" action="{{route('product.store')}}">
         {{csrf_field()}}

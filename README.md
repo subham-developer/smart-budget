@@ -2,6 +2,7 @@
 
 
 ## Setup video : https://www.youtube.com/watch?v=URX5D1A5XQ4&t=19s
+https://github.com/Prajwal100/Advance-Ecommerce-in-laravel-7.git
 
 ## Demo video :
 https://youtu.be/c5a_wrvJSJo

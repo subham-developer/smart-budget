@@ -19,8 +19,19 @@ class ProductController extends Controller
     public function index()
     {
         $products=Product::getAllProduct();
+        // dd(123);
         // return $products;
         return view('backend.product.index')->with('products',$products);
+    }
+
+    
+    public function upload_products_list()
+    {
+        dd(1234);
+        $brand=Brand::get();
+        $category=Category::where('is_parent',1)->get();
+        // return $category;
+        return view('backend.product.upload_products_list')->with('categories',$category)->with('brands',$brand);
     }
 
     /**
@@ -96,9 +107,12 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $brand=Brand::get();
+        $category=Category::where('is_parent',1)->get();
+        // return $category;
+        return view('backend.product.upload_products_list')->with('categories',$category)->with('brands',$brand);
     }
 
     /**

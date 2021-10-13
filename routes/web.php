@@ -112,6 +112,8 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth','admin']],function(){
     Route::resource('/category','CategoryController');
     // Product
     Route::resource('/product','ProductController');
+    Route::get('/product/upload-products-list','ProductController@upload_file');
+    
     // Ajax for sub category
     Route::post('/category/{id}/child','CategoryController@getChildByParent');
     // POST category
@@ -183,3 +185,13 @@ Route::group(['prefix'=>'/user','middleware'=>['user']],function(){
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
+
+
+
+// Excel Routes
+// Route for view/blade file.
+Route::get('importExport', 'MaatwebsiteController@importExport');
+// Route for export/download tabledata to .csv, .xls or .xlsx
+Route::get('downloadExcel/{type}', 'MaatwebsiteController@downloadExcel')->name('download.productslist');
+// Route for import excel data to database.
+Route::post('importExcel', 'MaatwebsiteController@importExcel');
