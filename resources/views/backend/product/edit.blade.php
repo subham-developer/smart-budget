@@ -35,9 +35,24 @@
 
         <div class="form-group">
           <label for="is_featured">Is Featured</label><br>
-          <input type="checkbox" name='is_featured' id='is_featured' value='{{$product->is_featured}}' {{(($product->is_featured) ? 'checked' : '')}}> Yes                        
+          <input type="checkbox" name='is_featured' id='is_featured' value='1' {{(($product->is_featured) ? 'checked' : '')}}> Yes                        
         </div>
               {{-- {{$categories}} --}}
+
+        <div class="form-group">
+          <label for="is_affiliate">Is Affiliate</label><br>
+          <input type="checkbox" name='is_affiliate' id='is_affiliate' value='1' {{(($product->is_affiliate) ? 'checked' : '')}}> Yes                        
+        </div>
+
+        <div class="form-group">
+          <label for="affiliate_url" class="col-form-label">Affiliate URL<span class="text-danger">*</span></label>
+          <input id="affiliate_url" type="url" name="affiliate_url" placeholder="Enter affiliate URL"  value="{{$product->affiliate_url}}" class="form-control">
+          @error('price')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
+        
 
         <div class="form-group">
           <label for="cat_id">Category <span class="text-danger">*</span></label>

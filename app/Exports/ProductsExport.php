@@ -45,6 +45,7 @@ class ProductsExport implements FromQuery, WithHeadings, WithMapping, ShouldAuto
     */
     public function map($invoice): array
     {
+
         return [
             $invoice->id,
             $invoice->title,
@@ -63,6 +64,8 @@ class ProductsExport implements FromQuery, WithHeadings, WithMapping, ShouldAuto
             // $invoice->cat_id,
             $invoice->sub_cat_info['title'],
             // $invoice->child_cat_id,
+            $invoice->affiliate_url,
+            $invoice->is_affiliate,
             $invoice->brand_info->title,
             // $invoice->brand_id,
             $invoice->created_at,

@@ -160,7 +160,11 @@
                                                     <a title="Wishlist" href="{{route('add-to-wishlist',$product->slug)}}" ><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
                                                 </div>
                                                 <div class="product-action-2">
+                                                    @if($product->is_affiliate)
+                                                    <a title="Buy Now" href="{{ $product->affiliate_url }}" target="_blank">Buy Now</a>
+                                                    @else
                                                     <a title="Add to cart" href="{{route('add-to-cart',$product->slug)}}">Add to cart</a>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -254,7 +258,12 @@
                                         <a title="Wishlist" href="{{route('add-to-wishlist',$product->slug)}}" ><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
                                     </div>
                                     <div class="product-action-2">
-                                        <a href="{{route('add-to-cart',$product->slug)}}">Add to cart</a>
+                                        {{-- <a href="{{route('add-to-cart',$product->slug)}}">Add to cart</a> --}}
+                                        @if($product->is_affiliate)
+                                            <a title="Buy Now" href="{{ $product->affiliate_url }}" target="_blank">Buy Now</a>
+                                            @else
+                                            <a title="Add to cart" href="{{route('add-to-cart',$product->slug)}}">Add to cart</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -499,10 +508,12 @@
                                                 <a href="#"> ({{$rate_count}} customer review)</a>
                                             </div>
                                             <div class="quickview-stock">
+                                                @if(!$product->is_affiliate)
                                                 @if($product->stock >0)
                                                 <span><i class="fa fa-check-circle-o"></i> {{$product->stock}} in stock</span>
                                                 @else 
                                                 <span><i class="fa fa-times-circle-o text-danger"></i> {{$product->stock}} out stock</span>
+                                                @endif
                                                 @endif
                                             </div>
                                         </div>
@@ -513,9 +524,11 @@
                                         <div class="quickview-peragraph">
                                             <p>{!! html_entity_decode($product->summary) !!}</p>
                                         </div>
+                                        @if(!$product->is_affiliate)
                                         @if($product->size)
                                             <div class="size">
                                                 <div class="row">
+                                                    
                                                     <div class="col-lg-6 col-12">
                                                         <h5 class="title">Size</h5>
                                                         <select>
@@ -537,32 +550,41 @@
                                                             <option>pink</option>
                                                         </select>
                                                     </div> --}}
+                                                    
                                                 </div>
                                             </div>
+                                        @endif
                                         @endif
                                         <form action="{{route('single-add-to-cart')}}" method="POST" class="mt-4">
                                             @csrf 
                                             <div class="quantity">
                                                 <!-- Input Order -->
                                                 <div class="input-group">
-                                                    <div class="button minus">
-                                                        <button type="button" class="btn btn-primary btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
-                                                            <i class="ti-minus"></i>
-                                                        </button>
-                                                    </div>
-													<input type="hidden" name="slug" value="{{$product->slug}}">
-                                                    <input type="text" name="quant[1]" class="input-number"  data-min="1" data-max="1000" value="1">
-                                                    <div class="button plus">
-                                                        <button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[1]">
-                                                            <i class="ti-plus"></i>
-                                                        </button>
-                                                    </div>
+                                                    @if(!$product->is_affiliate)
+                                                        <div class="button minus">
+                                                            <button type="button" class="btn btn-primary btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
+                                                                <i class="ti-minus"></i>
+                                                            </button>
+                                                        </div>
+                                                        <input type="hidden" name="slug" value="{{$product->slug}}">
+                                                        <input type="text" name="quant[1]" class="input-number"  data-min="1" data-max="1000" value="1">
+                                                        <div class="button plus">
+                                                            <button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[1]">
+                                                                <i class="ti-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                                 <!--/ End Input Order -->
                                             </div>
                                             <div class="add-to-cart">
-                                                <button type="submit" class="btn">Add to cart</button>
-                                                <a href="{{route('add-to-wishlist',$product->slug)}}" class="btn min"><i class="ti-heart"></i></a>
+                                                @if($product->is_affiliate)
+                                                    {{-- <button type="submit" class="btn">Buy Now</button> --}}
+                                                    <a href="{{ $product->affiliate_url }}" class="btn min">Buy Now</i></a>
+                                                    @else
+                                                    <button type="submit" class="btn">Add to cart</button>
+                                                    <a href="{{route('add-to-wishlist',$product->slug)}}" class="btn min"><i class="ti-heart"></i></a>
+                                                @endif
                                             </div>
                                         </form>
                                         <div class="default-social">

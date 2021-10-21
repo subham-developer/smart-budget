@@ -49,6 +49,8 @@ class ProductsImport implements ToCollection, WithValidation, WithHeadingRow, Wi
                 'price' => $row['price'],
                 'discount' => $row['discount'],
                 'is_featured' => $row['is_featured'],
+                'is_affiliate' => $row['is_affiliate'],
+                'affiliate_url' => $row['affiliate_url'],
                 'cat_id' => $row['cat_id'],
                 'child_cat_id' => $row['child_cat_id'],
                 'brand_id' => $row['brand_id'],
@@ -97,11 +99,13 @@ class ProductsImport implements ToCollection, WithValidation, WithHeadingRow, Wi
             'cat_id'=>'required|exists:categories,id',
             'child_cat_id'=>'nullable|exists:categories,id',
             'is_featured'=>'sometimes|in:1',
+            'is_affiliate'=>'sometimes|in:1',
+            'affiliate_url'=>'nullable',
             'brand_id'=>'nullable|exists:brands,id',
             'status'=>'required|in:active,inactive',
             'condition'=>'required|in:default,new,hot',
-            'price'=>'required|numeric',
-            'discount'=>'nullable|numeric'
+            // 'price'=>'required|numeric',
+            // 'discount'=>'nullable|numeric'
         ];
     }
 

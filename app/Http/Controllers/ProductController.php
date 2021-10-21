@@ -19,7 +19,7 @@ class ProductController extends Controller
     public function index()
     {
         $products=Product::getAllProduct();
-        // dd(123);
+        // dd($products);
         // return $products;
         return view('backend.product.index')->with('products',$products);
     }
@@ -55,7 +55,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->all();
+        // dd($request->all());
         $this->validate($request,[
             'title'=>'string|required',
             'summary'=>'string|required',
@@ -67,6 +67,8 @@ class ProductController extends Controller
             'brand_id'=>'nullable|exists:brands,id',
             'child_cat_id'=>'nullable|exists:categories,id',
             'is_featured'=>'sometimes|in:1',
+            'is_affiliate'=>'sometimes|in:1',
+            'affiliate_url'=>'nullable',
             'status'=>'required|in:active,inactive',
             'condition'=>'required|in:default,new,hot',
             'price'=>'required|numeric',
@@ -81,6 +83,7 @@ class ProductController extends Controller
         }
         $data['slug']=$slug;
         $data['is_featured']=$request->input('is_featured',0);
+        $data['is_affiliate']=$request->input('is_affiliate',0);
         $size=$request->input('size');
         if($size){
             $data['size']=implode(',',$size);
@@ -142,8 +145,9 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $product=Product::findOrFail($id);
-        $this->validate($request,[
+        $validator = $this->validate($request,[
             'title'=>'string|required',
             'summary'=>'string|required',
             'description'=>'string|nullable',
@@ -159,9 +163,17 @@ class ProductController extends Controller
             'price'=>'required|numeric',
             'discount'=>'nullable|numeric'
         ]);
-
         $data=$request->all();
+        // dd($data['is_affiliate']);
         $data['is_featured']=$request->input('is_featured',0);
+        $data['is_affiliate']=$request->input('is_affiliate',0);
+
+        if($data['is_affiliate'] == '1' && empty($data['affiliate_url'])){
+            request()->session()->flash('error','Affiliate URL cannot be empty');
+            return redirect()->route('product.index');
+        }
+       
+        
         $size=$request->input('size');
         if($size){
             $data['size']=implode(',',$size);
@@ -169,6 +181,7 @@ class ProductController extends Controller
         else{
             $data['size']='';
         }
+        //  dd($data);
         // return $data;
         $status=$product->fill($data)->save();
         if($status){

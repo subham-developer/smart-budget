@@ -31,6 +31,7 @@
               <th>Brand</th>
               <th>Stock</th>
               <th>Photo</th>
+              <th>Affiliate URL</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -48,6 +49,7 @@
               <th>Brand</th>
               <th>Stock</th>
               <th>Photo</th>
+              <th>Affiliate URL</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -94,6 +96,11 @@
                             <img src="{{asset('backend/img/thumbnail-default.jpg')}}" class="img-fluid" style="max-width:80px" alt="avatar.png">
                         @endif
                     </td>
+                    @if(!$product->affiliate_url)
+                    <td>Empty</td>
+                    @else
+                    <td>{{$product->affiliate_url}}</td>
+                    @endif
                     <td>
                         @if($product->status=='active')
                             <span class="badge badge-success">{{$product->status}}</span>
