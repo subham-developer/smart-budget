@@ -136,6 +136,11 @@
                                     <div class="single-product">
                                         <div class="product-img">
                                             <a href="{{route('product-detail',$product->slug)}}">
+                                            {{-- @if($product->is_affiliate)
+                                            <a href="{{$product->affiliate_url}}" target="_blank">
+                                            @else
+                                            <a href="{{route('product-detail',$product->slug)}}">
+                                            @endif --}}
                                                 @php 
                                                     $photo=explode(',',$product->photo);
                                                 // dd($photo);
@@ -174,8 +179,8 @@
                                                 @php
                                                     $after_discount=($product->price-($product->price*$product->discount)/100);
                                                 @endphp
-                                                <span>${{number_format($after_discount,2)}}</span>
-                                                <del style="padding-left:4%;">${{number_format($product->price,2)}}</del>
+                                                <span>&#8377;{{number_format($after_discount,2)}}</span>
+                                                <del style="padding-left:4%;">&#8377;{{number_format($product->price,2)}}</del>
                                             </div>
                                         </div>
                                     </div>
@@ -270,11 +275,11 @@
                             <div class="product-content">
                                 <h3><a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a></h3>
                                 <div class="product-price">
-                                    <span class="old">${{number_format($product->price,2)}}</span>
+                                    <span class="old">&#8377;{{number_format($product->price,2)}}</span>
                                     @php 
                                     $after_discount=($product->price-($product->price*$product->discount)/100)
                                     @endphp
-                                    <span>${{number_format($after_discount,2)}}</span>
+                                    <span>&#8377;{{number_format($after_discount,2)}}</span>
                                 </div>
                             </div>
                         </div>
@@ -321,8 +326,8 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12 no-padding">
                                     <div class="content">
-                                        <h4 class="title"><a href="#">{{$product->title}}</a></h4>
-                                        <p class="price with-discount">${{number_format($product->discount,2)}}</p>
+                                        <h4 class="title"><a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a></h4>
+                                        <p class="price with-discount">&#8377;{{number_format($product->price,2)}}</p>
                                     </div>
                                 </div>
                                 </div>
@@ -361,7 +366,7 @@
                                 @php 
                                     $after_discount=($product->price-($product->price*$product->discount)/100)
                                 @endphp
-                                <h1 class="price">${{number_format($after_discount)}} <s>${{number_format($data->price)}}</s></h1>
+                                <h1 class="price">&#8377;{{number_format($after_discount)}} <s>&#8377;{{number_format($data->price)}}</s></h1>
                                 <div class="coming-time">
                                     <div class="clearfix" data-countdown="2021/02/30"></div>
                                 </div>
@@ -520,7 +525,7 @@
                                         @php
                                             $after_discount=($product->price-($product->price*$product->discount)/100);
                                         @endphp
-                                        <h3><small><del class="text-muted">${{number_format($product->price,2)}}</del></small>    ${{number_format($after_discount,2)}}  </h3>
+                                        <h3><small><del class="text-muted">&#8377;{{number_format($product->price,2)}}</del></small>    &#8377;{{number_format($after_discount,2)}}  </h3>
                                         <div class="quickview-peragraph">
                                             <p>{!! html_entity_decode($product->summary) !!}</p>
                                         </div>
@@ -580,7 +585,7 @@
                                             <div class="add-to-cart">
                                                 @if($product->is_affiliate)
                                                     {{-- <button type="submit" class="btn">Buy Now</button> --}}
-                                                    <a href="{{ $product->affiliate_url }}" class="btn min">Buy Now</i></a>
+                                                    <a href="{{ $product->affiliate_url }}" class="btn min" target="_blank">Buy Now</i></a>
                                                     @else
                                                     <button type="submit" class="btn">Add to cart</button>
                                                     <a href="{{route('add-to-wishlist',$product->slug)}}" class="btn min"><i class="ti-heart"></i></a>

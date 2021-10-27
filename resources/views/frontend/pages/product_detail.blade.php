@@ -84,7 +84,7 @@
                                                 @php 
                                                     $after_discount=($product_detail->price-(($product_detail->price*$product_detail->discount)/100));
                                                 @endphp
-												<p class="price"><span class="discount">${{number_format($after_discount,2)}}</span><s>${{number_format($product_detail->price,2)}}</s> </p>
+												<p class="price"><span class="discount">&#8377;{{number_format($after_discount,2)}}</span><s>&#8377;{{number_format($product_detail->price,2)}}</s> </p>
 												<p class="description">{!!($product_detail->summary)!!}</p>
 											</div>
 											<!--/ End Description -->
@@ -100,6 +100,7 @@
 											</div> --}}
 											<!--/ End Color -->
 											<!-- Size -->
+											@if(!$product_detail->is_affiliate)
 											@if($product_detail->size)
 												<div class="size mt-4">
 													<h4>Size</h4>
@@ -114,10 +115,12 @@
 													</ul>
 												</div>
 											@endif
+											@endif
 											<!--/ End Size -->
 											<!-- Product Buy -->
 											<div class="product-buy">
 												<form action="{{route('single-add-to-cart')}}" method="POST">
+													@if(!$product_detail->is_affiliate)
 													@csrf 
 													<div class="quantity">
 														<h6>Quantity :</h6>
@@ -138,9 +141,14 @@
 														</div>
 													<!--/ End Input Order -->
 													</div>
+													@endif
 													<div class="add-to-cart mt-4">
-														<button type="submit" class="btn">Add to cart</button>
-														<a href="{{route('add-to-wishlist',$product_detail->slug)}}" class="btn min"><i class="ti-heart"></i></a>
+														@if($product_detail->is_affiliate)
+															<a href="{{$product_detail->affiliate_url}}" class="btn min" target="_blank">Buy Now</a>
+														@else
+															<button type="submit" class="btn">Add to cart</button>
+															<a href="{{route('add-to-wishlist',$product_detail->slug)}}" class="btn min"><i class="ti-heart"></i></a>
+														@endif
 													</div>
 												</form>
 
@@ -148,7 +156,9 @@
 												@if($product_detail->sub_cat_info)
 												<p class="cat mt-1">Sub Category :<a href="{{route('product-sub-cat',[$product_detail->cat_info['slug'],$product_detail->sub_cat_info['slug']])}}">{{$product_detail->sub_cat_info['title']}}</a></p>
 												@endif
+												@if(!$product_detail->is_affiliate)
 												<p class="availability">Stock : @if($product_detail->stock>0)<span class="badge badge-success">{{$product_detail->stock}}</span>@else <span class="badge badge-danger">{{$product_detail->stock}}</span>  @endif</p>
+												@endif
 											</div>
 											<!--/ End Product Buy -->
 										</div>
@@ -331,13 +341,19 @@
                                                                     {{-- <span class="out-of-stock">Hot</span> --}}
                                         </a>
                                         <div class="button-head">
+											@if(!$data->is_affiliate)
                                             <div class="product-action">
                                                 <a data-toggle="modal" data-target="#modelExample" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
                                                 <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
                                                 <a title="Compare" href="#"><i class="ti-bar-chart-alt"></i><span>Add to Compare</span></a>
                                             </div>
+											@endif
                                             <div class="product-action-2">
-                                                <a title="Add to cart" href="#">Add to cart</a>
+												@if($data->is_affiliate)
+												<a title="Buy Now" href="{{ $data->affiliate_url }}" target="_blank">Buy Now</a>
+												@else
+                                                <a title="Add to cart" href="{{route('add-to-wishlist',$data->slug)}}" class="btn min">Add to cart</a>
+												@endif
                                             </div>
                                         </div>
                                     </div>
@@ -347,8 +363,8 @@
                                             @php 
                                                 $after_discount=($data->price-(($data->discount*$data->price)/100));
                                             @endphp
-                                            <span class="old">${{number_format($data->price,2)}}</span>
-                                            <span>${{number_format($after_discount,2)}}</span>
+                                            <span class="old">&#8377;{{number_format($data->price,2)}}</span>
+                                            <span>&#8377;{{number_format($after_discount,2)}}</span>
                                         </div>
                                       
                                     </div>
